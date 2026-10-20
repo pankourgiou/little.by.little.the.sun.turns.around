@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deep in the decimals</title>
+<style>
+:root{color-scheme:dark;--bg:#000;--g:#2bff7a;--gd:#0f7a3a;--gt:#b6ffd0;--panel:rgba(0,10,4,.78)}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--gt);font-family:"SF Mono","Cascadia Mono",Consolas,"Liberation Mono",monospace;display:flex;align-items:center;justify-content:center;padding:24px;overflow-x:hidden}
+#rain{position:fixed;inset:0;width:100%;height:100%;z-index:0}
+main{position:relative;z-index:1;width:min(920px,100%);background:var(--panel);border:1px solid var(--gd);border-radius:6px;padding:clamp(20px,4vw,44px);box-shadow:0 0 60px rgba(43,255,122,.15);backdrop-filter:blur(3px)}
+h1{font-size:clamp(26px,5vw,46px);line-height:1.1;margin:0 0 10px;color:var(--g);font-weight:700;letter-spacing:-.01em;text-shadow:0 0 14px rgba(43,255,122,.55)}
+p.lead{margin:0 0 28px;max-width:60ch;line-height:1.6;color:#8fd6a8;font-size:15px}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:620px}
+thead th{font-weight:400;color:#6fbf8c;font-size:13px;padding:0 6px 12px;text-align:center}
+thead th:first-child{text-align:left}
+tbody tr{border-top:1px solid #0d4d27}
+tbody th{text-align:left;padding:16px 8px 16px 0;font-weight:400}
+.sym{display:block;font-size:26px;color:var(--g)}
+.nm{display:block;font-size:13px;color:#8fd6a8;margin-top:2px}
+.val{display:block;font-size:12px;color:#4c9a69;margin-top:2px}
+td{text-align:center;font-size:clamp(26px,5vw,42px);font-weight:700;color:var(--g);text-shadow:0 0 12px rgba(43,255,122,.6);padding:10px 6px;width:12%}
+td.s{color:#5fcf8a;text-shadow:none}
+p.foot{margin:22px 0 0;font-size:12px;color:#4c9a69;line-height:1.6}
+:focus-visible{outline:2px solid var(--g);outline-offset:3px}
+</style></head><body>
+<canvas id="rain" aria-hidden="true"></canvas>
+<main>
+<h1>Deep in the decimals</h1>
+<p class="lead">The digit sitting at five positions far beyond the decimal point, in four famous constants. Each one was computed to about five million digits.</p>
+<div class="scroll"><table>
+<caption class="sr" style="position:absolute;left:-9999px">Digit at each million-th decimal place</caption>
+<thead><tr><th scope="col">Constant</th><th scope="col">1,000,000th</th><th scope="col">2,000,000th</th><th scope="col">3,000,000th</th><th scope="col">4,000,000th</th><th scope="col">5,000,000th</th></tr></thead>
+<tbody>
+<tr><th scope="row"><span class="sym">φ</span><span class="nm">golden ratio</span><span class="val">1.6180339887…</span></th><td data-d="4">4</td><td data-d="7">7</td><td data-d="4">4</td><td data-d="9">9</td><td data-d="0">0</td></tr>
+<tr><th scope="row"><span class="sym">√2</span><span class="nm">square root of 2</span><span class="val">1.4142135623…</span></th><td data-d="3">3</td><td data-d="2">2</td><td data-d="3">3</td><td data-d="8">8</td><td data-d="7">7</td></tr>
+<tr><th scope="row"><span class="sym">ζ(3)</span><span class="nm">Apéry's constant</span><span class="val">1.2020569031…</span></th><td data-d="2">2</td><td data-d="7">7</td><td data-d="6">6</td><td data-d="1">1</td><td data-d="5">5</td></tr>
+<tr><th scope="row"><span class="sym">γ</span><span class="nm">Euler–Mascheroni</span><span class="val">0.5772156649…</span></th><td data-d="2">2</td><td data-d="5">5</td><td data-d="2">2</td><td data-d="7">7</td><td data-d="5">5</td></tr>
+</tbody></table></div>
+<p class="foot">Positions count decimal digits after the point. ζ(3) is Apéry's constant. The falling digits behind this panel are the real opening digits of the four constants.</p>
+</main>
+<script>
+(function(){
+var seed="6180339887498948482045868343656381177203091798057628621354486227052604628189024497072072041893911374847540880753868917521266338622235369317931800607667263544333890865959395829056383226613199282902678806752087668925017116962070322210432162695486262963136144381497587012203408058879544547492461856953648644492410443207713449470495658467885098743394422125448770664780915884607499887124007652170575179784142135623730950488016887242096980785696718753769480731766797379907324784621070388503875343276415727350138462309122970249248360558507372126441214970999358314132226659275055927557999505011527820605714701095599716059702745345968620147285174186408891986095523292304843087143214508397626036279952514079896872533965463318088296406206152583523950547457502877599617298355752203375318570113543746034084988472020569031595942853997381615114499907649862923404988817922715553418382057863130901864558736093352581461991577952607194184919959986732832137763968372079001614539417829493600667191915755222424942439615639096641032911590957809655146512799184051057152559880154371097811020398275325667876035223369849416618110570147157786394997375237852779370309560257018531827900030765471075630488433208697115737423807935772156649015328606065120900824024310421593359399235988057672348848677267776646709369470632917467495146314472498070824809605040144865428362241739976449235362535003337429373377376739427925952582470949160087352039481656708532331517766115286211995015079847937450857057400299213547861466940296043254215190587755352673313992540129674205137541395491116851028079842348775872050384310939973613725530608893312";
+var c=document.getElementById("rain"),x=c.getContext("2d"),fs=18,cols,drops,off;
+var reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+function size(){c.width=innerWidth;c.height=innerHeight;cols=Math.ceil(c.width/fs);drops=[];off=[];
+for(var i=0;i<cols;i++){drops.push(Math.random()*-c.height/fs);off.push(Math.floor(Math.random()*seed.length));}
+x.fillStyle="#000";x.fillRect(0,0,c.width,c.height);}
+function draw(){x.fillStyle="rgba(0,0,0,.07)";x.fillRect(0,0,c.width,c.height);x.font=fs+"px monospace";
+for(var i=0;i<cols;i++){var y=drops[i];if(y>=0){var ch=seed[(off[i]+Math.floor(y))%seed.length];
+x.fillStyle="#d8ffe6";x.fillText(ch,i*fs,y*fs);x.fillStyle="#1fd964";x.fillText(seed[(off[i]+Math.floor(y)-1+seed.length)%seed.length],i*fs,(y-1)*fs);}
+drops[i]+=.35+(i%5)*.06;if(drops[i]*fs>c.height&&Math.random()>.975){drops[i]=-Math.random()*20;off[i]=Math.floor(Math.random()*seed.length);}}}
+size();addEventListener("resize",size);
+if(reduce){for(var k=0;k<200;k++)draw();}else{setInterval(draw,33);}
+// one orchestrated moment: digits decrypt on load
+var tds=document.querySelectorAll("td[data-d]");
+if(!reduce){tds.forEach(function(td,i){var t=0,final=td.dataset.d,n=18+(i%5)*6+Math.floor(i/5)*8;td.classList.add("s");
+var iv=setInterval(function(){t++;if(t>=n){td.textContent=final;td.classList.remove("s");clearInterval(iv);}else td.textContent=Math.floor(Math.random()*10);},45);});}
+})();
+</script></body></html>
